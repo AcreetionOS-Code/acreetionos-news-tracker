@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ArrowLeft, ExternalLink, AlertTriangle, Loader2, BookOpen } from 'lucide-react';
-import DOMPurify from 'isomorphic-dompurify';
+import { sanitize } from 'isomorphic-dompurify';
 
 type LoadState = 'loading' | 'ready' | 'error';
 
@@ -139,7 +139,7 @@ export default function ReadPage() {
             </div>
             <div
               className="px-6 sm:px-10 py-6 sm:py-8 prose prose-slate dark:prose-invert prose-headings:text-slate-900 dark:prose-headings:text-white prose-a:text-green-600 dark:prose-a:text-green-400 prose-img:rounded-lg prose-blockquote:border-green-500 prose-blockquote:bg-green-50 dark:prose-blockquote:bg-green-950/30 max-w-none"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
+              dangerouslySetInnerHTML={{ __html: sanitize(article.content, { ALLOWED_TAGS: ['h1','h2','h3','h4','h5','h6','p','br','strong','em','a','ul','ol','li','pre','code','blockquote','img','table','thead','tbody','tr','th','td','hr','figure','figcaption','div','span','sub','sup','dl','dt','dd','abbr'], ALLOWED_ATTR: ['href','src','alt','class','target','rel','title','width','height'] }) }}
             />
           </article>
         )}
